@@ -46,6 +46,8 @@ void WeatherStation_initialize(void) {
     BME280_ctrl_meas(BME280_OVERSAMP_X1, BME280_OVERSAMP_X1, BME280_FORCED_MODE);
     BME280_ctrl_hum(BME280_OVERSAMP_X1);
     BME280_initializeSensor();
+    printf("PIC18F16Q40 Weather Station \r\n");
+    printf("Curiosity LPC Development Board \r\n\n");
     weather_initialized = 1;
 }
 
