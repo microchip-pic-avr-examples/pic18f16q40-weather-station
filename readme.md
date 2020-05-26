@@ -43,18 +43,18 @@ Additionally, a jumper wire (orange wire) was used to connect pin the PIC18F16Q4
 |Temp Sensor   | RA1                |
 |UART TX       | RC6                |
 
-### MCC Pin Manager Window View:
-<img src="images/pin-manager.png" alt="MCHP" width="500"/></a>
+#### MCC Pin Manager Window View:
+<img src="images/pin-manager.PNG" alt="MCHP" width="500"/></a>
 
-### Curiosity LPC Project Setup:
+#### Curiosity LPC Project Setup:
 
 ## I2C Module Configuration:
 The I2C module was used in this code example to communicate with the Bosch BME280 weather sensor to measure temperature, pressure, and relative humidity. For this example, the module was initialized using the MPLAB Code Configurator (MCC). The I2C was programmed to operate with a standard clock speed of 100 kHz, and external pull-up resistors were used on both the SDA and SCL pins. The slave address of the BME280 weather sensor was 0x76. The temperature, pressure, and humidity measurements were acquired from the Bosch BME280 weather sensor as raw uncompensated outputs.
 
-### BME280 Weather Sensor Compensation Routines:
+#### BME280 Weather Sensor Compensation Routines:
 The I2C module was used in this example to read the temperature, pressure, and humidity from the BME280 sensor. The temperature and pressure are read as 20-bit unsigned values, and the relative humidity is read as a 16-bit signed value. These sensor measurements obtained using the I2C module are raw data measurements from the weather sensor, and compensation routines must be used to convert the raw sensor outputs to values that can be used for display. The BME280 weather sensor has a set of compensation parameters stored in the device memory that must be read and stored by the PIC microcontroller. These compensation parameters are all used in the conversion routines to properly convert the raw sensor output to the final output results. The compensation routines used to convert the BME280 raw outputs to temperature in degrees Celsius, atmospheric pressure in inches of mercury, and relative humidity as a percentage are shown below.
 
-### Temperature Compensation Routines (°C):
+#### Temperature Compensation Routines (°C):
 ```c
 static uint32_t BME280_compensateTemperature(void) {
     long tempV1, tempV2, t;
@@ -68,7 +68,7 @@ static uint32_t BME280_compensateTemperature(void) {
 }
 ```
 
-### Atmospheric Pressure Compensation Routine (inHg):
+#### Atmospheric Pressure Compensation Routine (inHg):
 ```c
 static uint32_t BME280_compensatePressure(void) {
     long pressV1, pressV2;
@@ -100,7 +100,7 @@ static uint32_t BME280_compensatePressure(void) {
 
 ```
 
-### Relative Humidity Compensation Routine (%):
+#### Relative Humidity Compensation Routine (%):
 ```c
 static uint32_t BME280_compensateHumidity(void) {
     long humV;
@@ -126,13 +126,13 @@ The ADCC was used in this code example to measure the output of the ambient ligh
 
 The ADC conversion result was then used to calculate the ambient light intensity in µW/cm2 using the characteristic curve provided in the sensor datasheet. The following code snippet shows the firmware used to perform the burst-average conversion on the ambient light sensor output, and the compensation routine used to convert the raw analog value to light intensity. The MPLAB Code Configurator was used to quickly and easily setup of the ADCC module for this sensor interface. The setup and configuration of the ADCC using MCC is shown in the figure below. The ADCC was configured to perform 32 burst average conversions and then right shift them by 5 (divide by 32).
 
-### ADCC Burst-Average Mode MCC Configuration:
-<img src="images/adcc-config.png" alt="MCHP" width="500"/></a>
+#### ADCC Burst-Average Mode MCC Configuration:
+<img src="images/adcc-config.PNG" alt="MCHP" width="500"/></a>
 
-### ADCC Computation Feature MCC Configuration:
-<img src="images/adcc-compute.png" alt="MCHP" width="500"/></a>
+#### ADCC Computation Feature MCC Configuration:
+<img src="images/adcc-compute.PNG" alt="MCHP" width="500"/></a>
 
-### Ambient Light Sensor Acquisition & Compensation:
+#### Ambient Light Sensor Acquisition & Compensation:
 ```c
 float Ambient_ReadSensor(void) {
     ADPCH = AMBIENT; // Select AMBIENT analog channel as ADCC positive input;
@@ -160,20 +160,20 @@ float AmbientCompensation(void) {
 ## SPI Module Configuration:
 The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results. The OLEDC library in MCC was used to generate the initialization code and functional APIs needed to use the display. The library sets up the SPI module with the correct configuration to ensure proper communication between the PIC microcontroller and the display driver, and also provides a set of functional APIs that make getting started with the display quick and easy. To add the OLEDC library to an MPLABX project, open MCC and navigate to the "Device Resources" section. Once inside the Device Resources section, select the “Mikro-E Clicks” drop down menu, select “Displays”, and then add in the "oledC" library. The following figure shows the SPI configuration after it has been imported into the project by adding the oledC library. The functional APIs provided by the oledC library in MCC handle all of the SPI communication between the PIC and the display driver.
 
-### SPI Module MCC Configuration Burst-Average Mode MCC Configuration:
-<img src="images/spi-module.png" alt="MCHP" width="500"/></a>
+#### SPI Module MCC Configuration Burst-Average Mode MCC Configuration:
+<img src="images/spi-module.PNG" alt="MCHP" width="500"/></a>
 
-### SPI Module Foundation Services MCC Configuration:
-<img src="images/spi-Foundation.png" alt="MCHP" width="500"/></a>
+#### SPI Module Foundation Services MCC Configuration:
+<img src="images/spi-Foundation.PNG" alt="MCHP" width="500"/></a>
 
 ## UART Module Configuration:
 The UART module was used in this code example as an alternative way of displaying the weather station output results by printing the temperature, pressure, humidity, and ambient light intensity periodically using a serial port. The UART module was configured using MCC in Asynchronous 8-bit mode with a baud rate of 9600 baud. Transmission and reception were both enabled, and the “Redirect STDIO to UART” checkbox was selected under the software settings tab to include the library needed for “printf” functions. The UART TX pin was selected as pin RB7 and connected to the TX pin of the Virtual COM port on the Curiosity LPC Development Board (orange wire).
 
-### UART Module MCC Configuration:
-<img src="images/uart-config.png" alt="MCHP" width="500"/></a>
+#### UART Module MCC Configuration:
+<img src="images/uart-config.PNG" alt="MCHP" width="500"/></a>
 
 ## Serial Port Output Results:
-<img src="images/uart-output.png" alt="MCHP" width="500"/></a>
+<img src="images/uart-output.PNG" alt="MCHP" width="500"/></a>
 
 ## OLEDC Output Results:
-<img src="images/uart-output.png" alt="MCHP" width="500"/></a>
+<img src="images/uart-output.PNG" alt="MCHP" width="500"/></a>
