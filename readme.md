@@ -30,7 +30,7 @@ The Curiosity Low Pin Count (LPC) Development Board (Part # DM164137) was select
 
 - Red / black wires: Ground and 3.3V from the Curiosity LPC Development Board to the Breadboard where the sensors are placed.
 
-Additionally, a jumper wire (orange wire) was used to connect pin the PIC18F16Q40 UART TX pin (RB7) to the TX connection on the Curiosity LPC Virtual COM port for serial communication. The following table summarizes the signal connections used in this code example:
+Additionally, a jumper wire (orange wire) was used to connect the UART TX pin (RB7) of the PIC18F16Q40 to the TX connection on the Curiosity LPC Virtual COM port for serial communication. The following table summarizes the signal connections used in this code example:
 
 
 |Signal                    | Micrcontroller Pin     |
