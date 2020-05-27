@@ -32,22 +32,27 @@ The Curiosity Low Pin Count (LPC) Development Board (Part # DM164137) was select
 
 Additionally, a jumper wire (orange wire) was used to connect pin the PIC18F16Q40 UART TX pin (RB7) to the TX connection on the Curiosity LPC Virtual COM port for serial communication. The following table summarizes the signal connections used in this code example:
 
-|Signal        | Micrcontroller Pin |
-|------------- | :----------------: |
-|Fan 1 PWM     | RC0                |
-|Fan 1 Tach    | RC3                |
-|Fan 2 PWM     | RC1                |
-|Fan 2 Tach    | RC4                |
-|Fan 3 PWM     | RD1                |
-|Fan 3 Tach    | RB5                |
-|Temp Sensor   | RA1                |
-|UART TX       | RC6                |
+
+|Signal                    | Micrcontroller Pin     |
+|------------------------- | :--------------------: |
+|UART TX	                 | RB7                    |
+|Weather Click – SDA (I2C) | RB4                    |
+|Weather Click – SCL (I2C) | RB6                    |
+|OLEDC Click – SDO (SPI)	 | RC7                    |
+|OLEDC Click – SDI (SPI)	 | RC0                    |
+|OLEDC Click – SCK (SPI)	 | RC1                    |
+|OLEDC Click – CS (SPI)	   | RC6                    |
+|OLEDC Click – DC	         | RC5                    |
+|OLEDC Click – EN	         | RA2                    |
+|OLEDC Click – RST	       | RA4                    |
+|OLEDC Click – RW	         | RC2                    |
+|Ambient Click Output      | RB5                    |
 
 ### MCC Pin Manager Window View:
 <img src="images/pin-manager.PNG" alt="MCHP" width="750"/></a>
 
 ### Curiosity LPC Project Setup:
-<img src="images/weather-station.JPG" alt="MCHP" width="750"/></a>
+<img src="images/weather-station.jpg" alt="MCHP" width="750"/></a>
 
 # I2C Module Configuration:
 The I2C module was used in this code example to communicate with the Bosch BME280 weather sensor to measure temperature, pressure, and relative humidity. For this example, the module was initialized using the MPLAB Code Configurator (MCC). The I2C was programmed to operate with a standard clock speed of 100 kHz, and external pull-up resistors were used on both the SDA and SCL pins. The slave address of the BME280 weather sensor was 0x76. The temperature, pressure, and humidity measurements were acquired from the Bosch BME280 weather sensor as raw uncompensated outputs.
@@ -161,11 +166,11 @@ float AmbientCompensation(void) {
 # SPI Module Configuration:
 The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results. The OLEDC library in MCC was used to generate the initialization code and functional APIs needed to use the display. The library sets up the SPI module with the correct configuration to ensure proper communication between the PIC microcontroller and the display driver, and also provides a set of functional APIs that make getting started with the display quick and easy. To add the OLEDC library to an MPLABX project, open MCC and navigate to the "Device Resources" section. Once inside the Device Resources section, select the “Mikro-E Clicks” drop down menu, select “Displays”, and then add in the "oledC" library. The following figure shows the SPI configuration after it has been imported into the project by adding the oledC library. The functional APIs provided by the oledC library in MCC handle all of the SPI communication between the PIC and the display driver.
 
-### SPI Module MCC Configuration Burst-Average Mode MCC Configuration:
+### SPI Module MCC Configuration:
 <img src="images/spi-module.PNG" alt="MCHP" width="750"/></a>
 
 ### SPI Module Foundation Services MCC Configuration:
-<img src="images/spi-Foundation.PNG" alt="MCHP" width="750"/></a>
+<img src="images/spi-foundation.PNG" alt="MCHP" width="750"/></a>
 
 # UART Module Configuration:
 The UART module was used in this code example as an alternative way of displaying the weather station output results by printing the temperature, pressure, humidity, and ambient light intensity periodically using a serial port. The UART module was configured using MCC in Asynchronous 8-bit mode with a baud rate of 9600 baud. Transmission and reception were both enabled, and the “Redirect STDIO to UART” checkbox was selected under the software settings tab to include the library needed for “printf” functions. The UART TX pin was selected as pin RB7 and connected to the TX pin of the Virtual COM port on the Curiosity LPC Development Board (orange wire).
