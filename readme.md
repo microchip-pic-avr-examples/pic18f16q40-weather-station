@@ -15,7 +15,7 @@ The “pic18f16q40-weather-station” project highlights the advanced communicat
   - [PIC18F16Q40 Microcontroller](https://www.microchip.com/wwwproducts/en/PIC18F16Q40)
   - [Curiosity Low Pin Count (LPC) Development Board](https://www.microchip.com/DevelopmentTools/ProductDetails/DM164137)     
   - [MikroElektronika Weather Click Board](https://www.mikroe.com/weather-click)
-  - [MikroElektronika Weather Click Board](https://www.mikroe.com/ambient-click)      
+  - [MikroElektronika Ambient Click Board](https://www.mikroe.com/ambient-click)      
   - [MikroElektronika OLED C Click Board](https://www.mikroe.com/oled-c-click)         
 
 # Demo Configuration:
