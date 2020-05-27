@@ -2,7 +2,7 @@
 
 # OBJECTIVE:
 
-The “pic18f16q40-weather-station” project highlights the advanced communications peripherals found on the PIC18-Q40 family of devices to create a PIC18 powered weather station. The I2C module was used to interface a Bosch BME280 Weather Sensor to provide real-time measurements for temperature, relative humidity, and atmospheric pressure. This project also implements the 12-bit Analog to Digital Converter with Computation (ADCC) to interface an analog ambient light sensor which was used to measure light intensity. The SPI module was used to drive an OLED display to show the weather station output values in real time, and the UART module was used to also display the weather station output values over a serial port in real time.
+The “pic18f16q40-weather-station” project highlights the advanced communications peripherals found on the PIC18-Q40 family of devices to create a PIC18 powered weather station. The I2C module was used to interface a Bosch BME280 Weather Sensor to provide real-time measurements for temperature, relative humidity, and atmospheric pressure. This project also implements the 12-bit Analog to Digital Converter with Computation (ADCC) to interface an analog ambient light sensor which was used to measure light intensity. The SPI module was used to drive an OLED display to display the weather station output values in real time, and the UART module was used to also display the weather station output values over a serial port in real time.
 
 # Software Used:
   - MPLAB® X IDE 5.40 or newer [(microchip.com/mplab/mplab-x-ide)](http://www.microchip.com/mplab/mplab-x-ide)
