@@ -164,19 +164,11 @@ float AmbientCompensation(void) {
 }
 ```
 # SPI Module Configuration:
-The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results. The OLEDC library in MCC was used to generate the initialization code and functional APIs needed to use the display. The library sets up the SPI module with the correct configuration to ensure proper communication between the PIC microcontroller and the display driver, and also provides a set of functional APIs that make getting started with the display quick and easy. To add the OLEDC library to an MPLABX project, open MCC and navigate to the "Device Resources" section. Once inside the Device Resources section, select the “Mikro-E Clicks” drop down menu, select “Displays”, and then add in the "oledC" library. The following figure shows the SPI configuration after it has been imported into the project by adding the oledC library. The functional APIs provided by the oledC library in MCC handle all of the SPI communication between the PIC and the display driver.
+The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results. The OLEDC library in MCC was used to generate the initialization code and functional APIs needed to use the display. The library sets up the SPI module with the correct configuration to ensure proper communication between the PIC microcontroller and the display driver, and also provides a set of functional APIs that make getting started with the display quick and easy. To add the OLEDC library to an MPLABX project, open MCC and navigate to the "Device Resources" section. Once inside the Device Resources section, select the “Mikro-E Clicks” drop down menu, select “Displays”, and then add in the "oledC" library. The functional APIs provided by the oledC library in MCC handle all of the SPI communication between the PIC and the display driver.
 
-### SPI Module MCC Configuration:
-<img src="images/spi-module.PNG" alt="MCHP" width="750"/></a>
-
-### SPI Module Foundation Services MCC Configuration:
-<img src="images/spi-foundation.PNG" alt="MCHP" width="750"/></a>
 
 # UART Module Configuration:
 The UART module was used in this code example as an alternative way of displaying the weather station output results by printing the temperature, pressure, humidity, and ambient light intensity periodically using a serial port. The UART module was configured using MCC in Asynchronous 8-bit mode with a baud rate of 9600 baud. Transmission and reception were both enabled, and the “Redirect STDIO to UART” checkbox was selected under the software settings tab to include the library needed for “printf” functions. The UART TX pin was selected as pin RB7 and connected to the TX pin of the Virtual COM port on the Curiosity LPC Development Board (orange wire).
-
-### UART Module MCC Configuration:
-<img src="images/uart-config.PNG" alt="MCHP" width="750"/></a>
 
 # Weather Station Serial Port Output Results:
 <img src="images/uart-output.PNG" alt="MCHP" width="750"/></a>
