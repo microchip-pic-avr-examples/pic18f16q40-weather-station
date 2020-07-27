@@ -3,56 +3,76 @@
     "category": "com.microchip.ide.project",
     "content": {
         "metaDataVersion": "1.1.0",
-        "name": "com.microchip.mcu8.mplabx.project.",
+        "name": "com.microchip.mcu8.mplabx.project.pic18f16q40-weather-station",
         "version": " ",
-        "displayName": "  ",
-        "projectName": "",
-        "shortDescription": "",
+        "displayName": "PIC18F16q40 Weather Station",
+        "projectName": "pic18f16q40-weather-station",
+        "shortDescription": "Code example showing how build a weather station using the PIC18F16Q41",
         "ide": {
-            "name": "",
-            "semverRange": ""
-        },
-        "compiler": [
-			{
-				"name": "",
-				"semverRange": ""
-			}
-		],
-        "dfp": {
-            "name": "",
-            "semverRange": ""
-        },
-        "configurator": {
-            "name": "",
-            "semverRange": ""
-        },
-        "device": {
-            "metaDataVersion": "1.0.0",
-            "category": "com.microchip.portal.contentRef",
-            "content": {
-                "metaDataVersion": "1.0.0",
-                "category": "com.microchip.device",
-                "name": "",
-                "versionRange": "*"
-            }
-        },
-        "author": "",
-        "subcategories": [
-            "",
-            [
-               "Peripherals", ""
-            ],
-            [
-               "Peripherals", ""
-            ]            			
-        ],
-        "peripherals": [
-            "",""
-        ],
-        "keywords": [
-            "",
-            ""			
-        ],
+                  "name": "MPLABX",
+                  "semverRange": ">=5.40.0"
+              },
+              "compiler": [
+      			{
+      				"name": "XC8",
+      				"semverRange": "^2.20.0"
+      			}
+      		],
+              "dfp": {
+                  "name": "PIC18F-Q_DFP",
+                  "semverRange": "^1.5.124"
+              },
+              "configurator": {
+                  "name": "MCC",
+                  "semverRange": ">=3.95.0"
+              },
+              "device": {
+                  "metaDataVersion": "1.0.0",
+                  "category": "com.microchip.portal.contentRef",
+                  "content": {
+                      "metaDataVersion": "1.0.0",
+                      "category": "com.microchip.device",
+                      "name": "PIC18F16Q41",
+                      "versionRange": "*"
+                  }
+              },
+              "author": "Microchip",
+              "subcategories": [
+                  "",
+                  [
+                     "Peripherals", "I2C"
+                  ],
+                  [
+                     "Peripherals", "ADCC"
+                  ],
+                  [
+                     "Peripherals", "FVR"
+                  ],
+                  [
+                     "Peripherals", "SPI"
+                  ],
+                  [
+                     "Peripherals", "TMR1"
+                  ],
+                  [
+                     "Peripherals", "UART"
+                  ]
+              ],
+              "peripherals": [
+                  "I2C","ADCC","FVR","SPI","TMR1","UART"
+              ],
+              "keywords": [
+                  "MCC",
+                  "CIP",
+                  "Environmental",
+                  "Weather Station",
+                  "BME280",
+                  "Ambient Light",
+                  "Sensor",
+      			      "ADCC",
+                  "I2C",
+                  "OLED"
+              ],
 		"additionalData": {
 			"longDescription": {
 				"metaDataVersion": "1.0.0",

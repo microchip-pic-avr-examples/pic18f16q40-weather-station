@@ -33,7 +33,7 @@ The Curiosity Low Pin Count (LPC) Development Board (Part # DM164137) was select
 Additionally, a jumper wire (orange wire) was used to connect the UART TX pin (RB7) of the PIC18F16Q40 to the TX connection on the Curiosity LPC Virtual COM port for serial communication. The following table summarizes the signal connections used in this code example:
 
 
-|Signal                    | Micrcontroller Pin     |
+|Signal                    | Microcontroller Pin     |
 |------------------------- | :--------------------: |
 |UART TX	                 | RB7                    |
 |Weather Click – SDA (I2C) | RB4                    |
