@@ -69,7 +69,7 @@
                   "BME280",
                   "Ambient Light",
                   "Sensor",
-      			      "ADCC",
+      			  "ADCC",
                   "I2C",
                   "OLED"
               ],
