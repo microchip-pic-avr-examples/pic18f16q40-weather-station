@@ -7,7 +7,7 @@
         "version": "1.0.1",
         "displayName": "PIC18F16Q40 Weather Station",
         "projectName": "pic18f16q40-weather-station",
-        "shortDescription": "Code example showing how build a weather station using the PIC18F16Q40",
+        "shortDescription": "Code example showing how build a weather station using the PIC18 Q40 Device Family",
         "ide": {
                   "name": "MPLABX",
                   "semverRange": ">=5.40.0"
