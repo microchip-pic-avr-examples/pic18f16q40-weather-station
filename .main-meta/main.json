@@ -4,7 +4,7 @@
     "content": {
         "metaDataVersion": "1.1.0",
         "name": "com.microchip.mcu8.mplabx.project.pic18f16q40-weather-station",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "displayName": "PIC18F16Q40 Weather Station",
         "projectName": "pic18f16q40-weather-station",
         "shortDescription": "Code example showing how build a weather station using the PIC18 Q40 Device Family",
