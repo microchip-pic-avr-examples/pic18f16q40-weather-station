@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #include <xc.h>
-#include "mcc_generated_files/mcc.h"
+#include "mcc_generated_files/system/system.h"
 
     /**
   Section: Macro Declarations
@@ -165,6 +165,7 @@ extern "C" {
         signed char dig_H6;
     } bme280_calibration_param_t;
 
+    uint8_t bme280_id;
     bme280_config_t bme280_config;
     uint8_t bme280_ctrl_hum;
     bme280_ctrl_meas_t bme280_ctrl_meas;
@@ -176,8 +177,8 @@ extern "C" {
      */
 
     uint8_t BME280_getID(void);
-    void BME280_reset(void);
-    void BME280_sleep(void);
+    uint8_t BME280_reset(void);
+    uint8_t BME280_sleep(void);
     void BME280_readFactoryCalibrationParams(void);
     void BME280_config(uint8_t sbtime, uint8_t coeff);
     void BME280_ctrl_meas(uint8_t osrs_T, uint8_t osrs_P, uint8_t mode);

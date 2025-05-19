@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #include <xc.h>
-#include "mcc_generated_files/mcc.h"
+#include "mcc_generated_files/system/system.h"
 #include <math.h>
 
 #define ADCC_RESOLUTION         4096

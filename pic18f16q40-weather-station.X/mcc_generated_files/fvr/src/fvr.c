@@ -1,15 +1,13 @@
- /*
- * MAIN Generated Driver File
- * 
- * @file main.c
- * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+/**
+ * FVR Generated Driver File.
  *
- * @version MAIN Driver Version 1.0.2
- *
- * @version Package Version: 3.1.2
+ * @file fvr.c
+ * 
+ * @ingroup fvr 
+ * 
+ * @brief This file contains the API implementation for the FVR module.
+ * 
+ * @version FVR Driver Version 2.0.1
 */
 
 /*
@@ -32,36 +30,26 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
+/**
+  Section: Included Files
+*/
+#include <xc.h>
+#include "../fvr.h"
 
-void setTick (void) {
-    tmr1_tick = 1;
+/**
+  Section: FVR APIs
+*/
+void FVR_Initialize(void)
+{
+    // ADFVR 4x; CDAFVR off; TSRNG Lo_range; TSEN disabled; FVREN enabled; 
+    FVRCON = 0xC3;
 }
 
-
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
-
- 
-    INTERRUPT_GlobalInterruptEnable();
-
-    display_Print_Splash();    
-    WeatherStation_initialize();
-
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
-    }
+bool FVR_IsOutputReady(void)
+{
+	return (FVRCONbits.FVRRDY);
 }
+/**
+ End of File
+*/

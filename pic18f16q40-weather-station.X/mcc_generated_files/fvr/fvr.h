@@ -1,15 +1,13 @@
- /*
- * MAIN Generated Driver File
+/**
+ * FVR Generated Driver API Header File.
  * 
- * @file main.c
+ * @file fvr.h
  * 
- * @defgroup main MAIN
+ * @defgroup fvr FVR
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API prototypes for the FVR module.
  *
- * @version MAIN Driver Version 1.0.2
- *
- * @version Package Version: 3.1.2
+ * @version FVR Driver Version 2.0.1
 */
 
 /*
@@ -32,36 +30,53 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
-
-void setTick (void) {
-    tmr1_tick = 1;
-}
+#ifndef FVR_H
+#define FVR_H
 
 
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
+/**
+  Section: Included Files
+*/
+#include <stdbool.h>
+#include <stdint.h>
 
- 
-    INTERRUPT_GlobalInterruptEnable();
+#ifdef __cplusplus  // Provide C++ Compatibility
 
-    display_Print_Splash();    
-    WeatherStation_initialize();
+    extern "C" {
 
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
+#endif
+
+/**
+  Section: FVR APIs
+*/
+
+
+/**
+ * @ingroup fvr
+ * @brief Initializes the FVR module. This is called only once before calling other FVR APIs.
+ * @param None.
+ * @return None.
+ */
+ void FVR_Initialize(void);
+
+/**
+ * @ingroup fvr
+ * @brief Checks if the FVR output is ready.
+ * @pre Initialize the FVR before calling this function.
+ * @param None.
+ * @retval True - FVR module is ready for use.
+ * @retval False - FVR module is not ready for use.
+ */
+bool FVR_IsOutputReady(void);
+
+#ifdef __cplusplus  // Provide C++ Compatibility
+
     }
-}
+
+#endif
+
+#endif // FVR_H
+/**
+ End of File
+*/

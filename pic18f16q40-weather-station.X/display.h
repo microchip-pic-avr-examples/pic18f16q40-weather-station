@@ -13,11 +13,11 @@ extern "C" {
 #endif
 
 #include <xc.h>
-#include "mcc_generated_files/mcc.h"
-#include "mcc_generated_files/oledC.h"
-#include "mcc_generated_files/oledC_colors.h"
-#include "mcc_generated_files/oledC_shapeHandler.h"
-#include "mcc_generated_files/oledC_shapes.h"
+#include "mcc_generated_files/system/system.h"
+#include "oledC/oledC.h"
+#include "oledC/oledC_colors.h"
+#include "oledC/oledC_shapeHandler.h"
+#include "oledC/oledC_shapes.h"
 #include "bme280.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -59,9 +59,9 @@ extern "C" {
     void display_Splash(void);
     void display_PrintLabels(void);
     void display_PrintWeatherString(void);
-    display_eraseValues(void);
-    display_Print_Splash(void);
-    oledC_Print_Weather(void);
+    void display_eraseValues(void);
+    void display_Print_Splash(void);
+    void display_Print_Weather(void);
 
 #ifdef	__cplusplus
 }

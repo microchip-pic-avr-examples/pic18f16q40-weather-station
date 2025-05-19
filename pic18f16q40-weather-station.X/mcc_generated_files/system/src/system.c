@@ -1,15 +1,15 @@
- /*
- * MAIN Generated Driver File
+/**
+ * System Driver Source File.
  * 
- * @file main.c
+ * @file system.c
  * 
- * @defgroup main MAIN
+ * @ingroup systemdriver
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API implementation for the System driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 2.0.3
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 2.1.6
 */
 
 /*
@@ -32,36 +32,24 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
+#include "../system.h"
 
-void setTick (void) {
-    tmr1_tick = 1;
+
+
+
+void SYSTEM_Initialize(void)
+{
+    CLOCK_Initialize();
+    PIN_MANAGER_Initialize();
+    ADC_Initialize();
+    I2C1_Host_Initialize();
+    SPI1_Host_Initialize();
+    TMR1_Initialize();
+    FVR_Initialize();
+    UART1_Initialize();
+    INTERRUPT_Initialize();
 }
 
 
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
 
- 
-    INTERRUPT_GlobalInterruptEnable();
-
-    display_Print_Splash();    
-    WeatherStation_initialize();
-
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
-    }
-}

@@ -1,15 +1,16 @@
- /*
- * MAIN Generated Driver File
+/**
+ * CLOCK Generated Driver Header File 
  * 
- * @file main.c
+ * @file clock.h
  * 
- * @defgroup main MAIN
+ * @defgroup clockdriver Clock Driver
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API prototypes and other data types for the Clock driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 2.0.4
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 4.3.7
+ *
 */
 
 /*
@@ -32,36 +33,29 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
+#ifndef CLOCK_H
+#define	CLOCK_H
 
-void setTick (void) {
-    tmr1_tick = 1;
-}
+#ifndef _XTAL_FREQ
+/**
+    @ingroup clock control 
+    @def system frequency
+    @misradeviation{@required, 21.1} Defining the system frequency using the _XTAL_FREQ macro is required by the XC8 compiler for the built-in delay functions.
+*/
+/* cppcheck-suppress misra-c2012-21.1 */
+#define _XTAL_FREQ 8000000U
+#endif
 
+/**
+ * @ingroup clockdriver
+ * @brief Initializes all the Internal Oscillator sources and the clock switch configurations. 
+ * @param None.
+ * @return None.
+ */
+void CLOCK_Initialize(void);
 
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
-
- 
-    INTERRUPT_GlobalInterruptEnable();
-
-    display_Print_Splash();    
-    WeatherStation_initialize();
-
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
-    }
-}
+#endif	/* CLOCK_H */
+/**
+ End of File
+*/

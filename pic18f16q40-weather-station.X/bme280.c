@@ -6,48 +6,69 @@
  */
 
 #include "bme280.h"
+#include "oledC/oledC.h"
 
 /**
   Section: Driver APIs
  */
 
+uint8_t i2c_read_buff[24];
+uint8_t i2c_write_buff[8];
+
 uint8_t BME280_getID(void) {
-    return i2c_read1ByteRegister(BME280_ADDR, BME280_ID_REG);
+    
+    i2c_write_buff[0] = BME280_ID_REG;
+    I2C1_WriteRead(BME280_ADDR, i2c_write_buff, 1, i2c_read_buff, 1);
+    while( I2C1_IsBusy() );
+    bme280_id = i2c_read_buff[0];
+    return I2C1_ErrorGet();
 }
 
-void BME280_reset(void) {
-    i2c_write1ByteRegister(BME280_ADDR, BME280_RESET_REG, BME280_SOFT_RESET);
+uint8_t BME280_reset(void) {
+    i2c_write_buff[0] = BME280_RESET_REG;
+    i2c_write_buff[1] = BME280_SOFT_RESET;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
+    while( I2C1_IsBusy() );
+    return I2C1_ErrorGet();
 }
 
-void BME280_sleep(void) {
+uint8_t BME280_sleep(void) {
     bme280_ctrl_meas.mode = BME280_SLEEP_MODE;
-    i2c_write1ByteRegister(BME280_ADDR, BME280_CTRL_MEAS_REG, bme280_ctrl_meas.ctrlMeasReg);
+    i2c_write_buff[0] = BME280_CTRL_MEAS_REG;
+    i2c_write_buff[1] = bme280_ctrl_meas.ctrlMeasReg;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
 }
 
 void BME280_readFactoryCalibrationParams(void) {
-    uint8_t paramBuff[24];
-    i2c_readDataBlock(BME280_ADDR, BME280_CALIB_DT1_LSB_REG, paramBuff, 24);
-    calibParam.dig_T1 = (((uint16_t) paramBuff[1]) << 8) + paramBuff[0];
-    calibParam.dig_T2 = (((int) paramBuff[3]) << 8) + paramBuff[2];
-    calibParam.dig_T3 = (((int) paramBuff[5]) << 8) + paramBuff[4];
-    calibParam.dig_P1 = (((uint16_t) paramBuff[7]) << 8) + paramBuff[6];
-    calibParam.dig_P2 = (((int) paramBuff[9]) << 8) + paramBuff[8];
-    calibParam.dig_P3 = (((int) paramBuff[11]) << 8) + paramBuff[10];
-    calibParam.dig_P4 = (((int) paramBuff[13]) << 8) + paramBuff[12];
-    calibParam.dig_P5 = (((int) paramBuff[15]) << 8) + paramBuff[14];
-    calibParam.dig_P6 = (((int) paramBuff[17]) << 8) + paramBuff[16];
-    calibParam.dig_P7 = (((int) paramBuff[19]) << 8) + paramBuff[18];
-    calibParam.dig_P8 = (((int) paramBuff[21]) << 8) + paramBuff[20];
-    calibParam.dig_P9 = (((int) paramBuff[23]) << 8) + paramBuff[22];
+    i2c_write_buff[0] = BME280_CALIB_DT1_LSB_REG;
+    I2C1_WriteRead(BME280_ADDR, i2c_write_buff, 1, i2c_read_buff, 24);
+    while( I2C1_IsBusy() );
+    calibParam.dig_T1 = (((uint16_t) i2c_read_buff[1]) << 8) + i2c_read_buff[0];
+    calibParam.dig_T2 = (((int) i2c_read_buff[3]) << 8) + i2c_read_buff[2];
+    calibParam.dig_T3 = (((int) i2c_read_buff[5]) << 8) + i2c_read_buff[4];
+    calibParam.dig_P1 = (((uint16_t) i2c_read_buff[7]) << 8) + i2c_read_buff[6];
+    calibParam.dig_P2 = (((int) i2c_read_buff[9]) << 8) + i2c_read_buff[8];
+    calibParam.dig_P3 = (((int) i2c_read_buff[11]) << 8) + i2c_read_buff[10];
+    calibParam.dig_P4 = (((int) i2c_read_buff[13]) << 8) + i2c_read_buff[12];
+    calibParam.dig_P5 = (((int) i2c_read_buff[15]) << 8) + i2c_read_buff[14];
+    calibParam.dig_P6 = (((int) i2c_read_buff[17]) << 8) + i2c_read_buff[16];
+    calibParam.dig_P7 = (((int) i2c_read_buff[19]) << 8) + i2c_read_buff[18];
+    calibParam.dig_P8 = (((int) i2c_read_buff[21]) << 8) + i2c_read_buff[20];
+    calibParam.dig_P9 = (((int) i2c_read_buff[23]) << 8) + i2c_read_buff[22];
 
-    calibParam.dig_H1 = (uint8_t) i2c_read1ByteRegister(BME280_ADDR, BME280_CALIB_DH1_REG);
+    i2c_write_buff[0] = BME280_CALIB_DH1_REG;
+    calibParam.dig_H1 = (uint8_t) I2C1_WriteRead(BME280_ADDR, i2c_write_buff, 1, i2c_read_buff, 1);
+    while( I2C1_IsBusy() );
 
-    i2c_readDataBlock(BME280_ADDR, BME280_CALIB_DH2_LSB_REG, paramBuff, 7);
-    calibParam.dig_H2 = (((int) paramBuff[1]) << 8) + paramBuff[0];
-    calibParam.dig_H3 = (uint8_t) paramBuff[2];
-    calibParam.dig_H4 = (((int) paramBuff[3]) << 4) | (paramBuff[4] & 0xF);
-    calibParam.dig_H5 = (((int) paramBuff[5]) << 4) | (paramBuff[4] >> 4);
-    calibParam.dig_H6 = (short) paramBuff[6];
+    i2c_write_buff[0] = BME280_CALIB_DH2_LSB_REG;
+    I2C1_WriteRead(BME280_ADDR, i2c_write_buff, 1, i2c_read_buff, 7);
+    while( I2C1_IsBusy() );
+    
+    calibParam.dig_H2 = (((int) i2c_read_buff[1]) << 8) + i2c_read_buff[0];
+    calibParam.dig_H3 = (uint8_t) i2c_read_buff[2];
+    calibParam.dig_H4 = (((int) i2c_read_buff[3]) << 4) | (i2c_read_buff[4] & 0xF);
+    calibParam.dig_H5 = (((int) i2c_read_buff[5]) << 4) | (i2c_read_buff[4] >> 4);
+    calibParam.dig_H6 = (short) i2c_read_buff[6];
 }
 
 void BME280_config(uint8_t sbtime, uint8_t coeff) {
@@ -66,20 +87,37 @@ void BME280_ctrl_hum(uint8_t osrs_H) {
 }
 
 void BME280_initializeSensor(void) {
-    i2c_write1ByteRegister(BME280_ADDR, BME280_CONFIG_REG, bme280_config.configReg);
-    i2c_write1ByteRegister(BME280_ADDR, BME280_CTRL_HUM_REG, bme280_ctrl_hum);
-    i2c_write1ByteRegister(BME280_ADDR, BME280_CTRL_MEAS_REG, bme280_ctrl_meas.ctrlMeasReg);
+    
+    i2c_write_buff[0] = BME280_CONFIG_REG;
+    i2c_write_buff[1] = bme280_config.configReg;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
+    while( I2C1_IsBusy() );
+    
+    i2c_write_buff[0] = BME280_CTRL_HUM_REG;
+    i2c_write_buff[1] = bme280_ctrl_hum;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
+    while( I2C1_IsBusy() );
+    
+    i2c_write_buff[0] = BME280_CTRL_MEAS_REG;
+    i2c_write_buff[1] = bme280_ctrl_meas.ctrlMeasReg;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
+    while( I2C1_IsBusy() );
 }
 
 void BME280_startForcedSensing(void) {
     bme280_ctrl_meas.mode = BME280_FORCED_MODE;
-    i2c_write1ByteRegister(BME280_ADDR, BME280_CTRL_MEAS_REG, bme280_ctrl_meas.ctrlMeasReg);
+    
+    i2c_write_buff[0] = BME280_CTRL_MEAS_REG;
+    i2c_write_buff[1] = bme280_ctrl_meas.ctrlMeasReg;
+    I2C1_Write(BME280_ADDR, i2c_write_buff, 2);
+    while( I2C1_IsBusy() );
 }
 
 void BME280_readMeasurements(void) {
     uint8_t sensorData[BME280_DATA_FRAME_SIZE];
-
-    i2c_readDataBlock(BME280_ADDR, BME280_PRESS_MSB_REG, sensorData, BME280_DATA_FRAME_SIZE);
+    i2c_write_buff[0] = BME280_PRESS_MSB_REG;
+    I2C1_WriteRead(BME280_ADDR, i2c_write_buff, 1, sensorData, BME280_DATA_FRAME_SIZE);
+    while( I2C1_IsBusy() );
 
     adc_H = ((uint32_t) sensorData[BME280_HUM_MSB] << 8) |
             sensorData[BME280_HUM_LSB];

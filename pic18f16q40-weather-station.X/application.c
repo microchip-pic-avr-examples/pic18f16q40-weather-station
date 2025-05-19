@@ -34,10 +34,6 @@ void WeatherClick_readSensors(void) {
     BME280_readMeasurements();
 }
 
-//void GetLightIntensity(void) {
-//    LightIntensity = AmbientCompensation();
-//}
-
 void WeatherStation_initialize(void) {
     BME280_reset();
     __delay_ms(50);

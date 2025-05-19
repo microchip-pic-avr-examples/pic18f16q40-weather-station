@@ -7,14 +7,13 @@
 
 
 #include "ambient.h"
-#include "mcc_generated_files/adcc.h"
+#include "mcc_generated_files/adc/adc.h"
 
 float Ambient_ReadSensor(void) {
-    ADPCH = AMBIENT; // Select AMBIENT analog channel as ADCC positive input;
-    ADCON0bits.ADGO = 1; // Trigger burst-average ADCC conversions;
-    while (ADCON0bits.ADGO); // Wait for ADC Threshold Interrupt Flag to set;
-    while (!PIR2bits.ADTIF); // Wait for ADC Threshold Interrupt Flag to set;
-    return (ADCC_GetFilterValue()); // Return ADC Burst Average Result;
+    ADC_ConversionStart();
+    while( 0 == ADC_IsConversionDone() );
+    while( 0 == ADC_IsThresholdInterruptFlagSet() );
+    return ADC_FilterValueGet();
 }
 
 float AmbientCompensation(void) {

@@ -1,17 +1,16 @@
- /*
- * MAIN Generated Driver File
+/**
+ * Configuration Bits Generated Driver Header File
  * 
- * @file main.c
+ * @file config_bits.h
  * 
- * @defgroup main MAIN
+ * @defgroup config_bitsdriver CONFIGBITS Driver 
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API prototypes and other datatypes for the Configuration Bits driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 2.0.2
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 2.1.6
 */
-
 /*
 © [2025] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,36 +31,13 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
+#ifndef CONFIG_BITS_H
+#define	CONFIG_BITS_H
 
-void setTick (void) {
-    tmr1_tick = 1;
-}
+#include "../system/clock.h"
 
-
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
-
- 
-    INTERRUPT_GlobalInterruptEnable();
-
-    display_Print_Splash();    
-    WeatherStation_initialize();
-
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
-    }
-}
+#endif	/* CONFIG_BITS_H */
+/**
+ End of File
+*/

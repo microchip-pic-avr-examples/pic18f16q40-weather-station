@@ -1,15 +1,16 @@
- /*
- * MAIN Generated Driver File
- * 
- * @file main.c
- * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+/**
+ * SPI Type Definitions Header File
  *
- * @version MAIN Driver Version 1.0.2
+ * @file spi_polling_types.h
  *
- * @version Package Version: 3.1.2
+ * @defgroup spi SPI
+ *
+ * @version SPI Driver Version v3.2.0.
+ * 
+ * @version SPI Package Version v5.2.0.
+ *
+ * @brief This header file provides type definitions for the SPI module operation in Polling mode.
+ *
 */
 
 /*
@@ -32,36 +33,23 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
-#include "oledC/oledC.h"
-#include "display.h"
-#include "application.h"
 
-bool tmr1_tick = 0;
-
-void setTick (void) {
-    tmr1_tick = 1;
-}
+#ifndef SPI_POLLING_TYPES_H
+#define	SPI_POLLING_TYPES_H
 
 
-void main(void) {
-    
-    SYSTEM_Initialize();    
-    TMR1_OverflowCallbackRegister(setTick);
-    SPI1_Open(1);
-    oledC_setup();
+/**
+ * @ingroup spi
+ * @typedef struct spi_configuration_t
+ * @brief Holds register configurations for SPI module.
+ */
+typedef struct
+{ 
+    uint8_t con0; 
+    uint8_t con1; 
+    uint8_t con2; 
+    uint8_t baud; 
+    uint8_t clksel;
+} spi_configuration_t;
 
- 
-    INTERRUPT_GlobalInterruptEnable();
-
-    display_Print_Splash();    
-    WeatherStation_initialize();
-
-    while (1) {
-        // Add your application code
-        if (tmr1_tick == 1) {
-            WeatherStation_Print();
-            tmr1_tick = 0;
-        }
-    }
-}
+#endif // SPI_POLLING_TYPES_H
