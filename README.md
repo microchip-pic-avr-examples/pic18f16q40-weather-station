@@ -5,11 +5,10 @@
 The “pic18f16q40-weather-station” project highlights the advanced communications peripherals found on the PIC18-Q40 family of devices to create a PIC18 powered weather station. The I2C module was used to interface a Bosch BME280 Weather Sensor to provide real-time measurements for temperature, relative humidity, and atmospheric pressure. This project also implements the 12-bit Analog to Digital Converter with Computation (ADCC) to interface an analog ambient light sensor which was used to measure light intensity. The SPI module was used to drive an OLED display to display the weather station output values in real time, and the UART module was used to also display the weather station output values over a serial port in real time.
 
 # Software Used:
-  - MPLAB® X IDE 5.40 or newer [(microchip.com/mplab/mplab-x-ide)](http://www.microchip.com/mplab/mplab-x-ide)
-  - MPLAB® XC8 2.20 or a newer compiler [(microchip.com/mplab/compilers)](http://www.microchip.com/mplab/compilers)
-  - MPLAB® Code Configurator (MCC) 3.95.0 or newer [(microchip.com/mplab/mplab-code-configurator)](https://www.microchip.com/mplab/mplab-code-configurator)
-  - MPLAB® Code Configurator (MCC) Device Libraries PIC10 / PIC12 / PIC16 / PIC18 MCUs [(microchip.com/mplab/mplab-code-configurator)](https://www.microchip.com/mplab/mplab-code-configurator)
-  - Microchip PIC18F-Q Series Device Support (1.5.124) or newer [(packs.download.microchip.com/)](https://packs.download.microchip.com/)
+  - [MPLAB® X IDE 6.25 or newer](http://www.microchip.com/mplab/mplab-x-ide)
+  - [MPLAB® XC8 3.0 or a newer compiler](http://www.microchip.com/mplab/compilers)
+  - [MPLAB® Code Configurator (MCC) 5.7.1 or newer](https://www.microchip.com/mplab/mplab-code-configurator)
+  - [Microchip PIC18F-Q Series Device Support 1.28.451 or newer](https://packs.download.microchip.com/)
 
 # Hardware Used:
   - [PIC18F16Q40 Microcontroller](https://www.microchip.com/wwwproducts/en/PIC18F16Q40)
@@ -47,9 +46,6 @@ Additionally, a jumper wire (orange wire) was used to connect the UART TX pin (R
 |OLEDC Click – RST	       | RA4                    |
 |OLEDC Click – RW	         | RC2                    |
 |Ambient Click Output      | RB5                    |
-
-### MCC Pin Manager Window View:
-<img src="images/pin-manager.PNG" alt="MCHP" width="750"/></a>
 
 ### Curiosity LPC Project Setup:
 <img src="images/weather-station.jpg" alt="MCHP" width="750"/></a>
@@ -132,20 +128,38 @@ The ADCC was used in this code example to measure the output of the ambient ligh
 
 The ADC conversion result was then used to calculate the ambient light intensity in µW/cm2 using the characteristic curve provided in the sensor datasheet. The following code snippet shows the firmware used to perform the burst-average conversion on the ambient light sensor output, and the compensation routine used to convert the raw analog value to light intensity. The MPLAB Code Configurator was used to quickly and easily setup of the ADCC module for this sensor interface. The setup and configuration of the ADCC using MCC is shown in the figure below. The ADCC was configured to perform 32 burst average conversions and then right shift them by 5 (divide by 32).
 
-### ADCC Burst-Average Mode MCC Configuration:
-<img src="images/adcc-config.PNG" alt="MCHP" width="750"/></a>
+### ADC Settings:
+#### Hardware Settings
+| Setting       | Value     |
+|-------------|---------|
+| Enable ADC    |  Enabled  |
+| Result Alignment | right  | 
+| Positive Input Channel | ANB5 | 
+| Positive Voltage Reference   |   FVR   | 
+| Negative Voltage Reference   |   VSS   | 
+| Auto-Conversion Trigger      |   disabled | 
 
-### ADCC Computation Feature MCC Configuration:
-<img src="images/adcc-compute.PNG" alt="MCHP" width="750"/></a>
+#### Computation Settings 
+| Setting             | Value             |
+|---------------------|-------------------|
+| Computation Mode    | Burst_average_mode|
+| Sample Repeat Count | 32                |
+| Threshold Interrupt Mode | enabled      |
+| Accumulator Right Shift  | 5            |
+
+#### Clock Settings
+| Setting             |   Value           |
+|---------------------|-------------------|
+| Clock Source        |  FOSC             |
+| Clock Divider       |  FOSC/8           |
 
 ### Ambient Light Sensor Acquisition & Compensation:
 ```c
 float Ambient_ReadSensor(void) {
-    ADPCH = AMBIENT; // Select AMBIENT analog channel as ADCC positive input;
-    ADCON0bits.ADGO = 1; // Trigger burst-average ADCC conversions;
-    while (ADCON0bits.ADGO); // Wait for ADC Threshold Interrupt Flag to set;
-    while (!PIR2bits.ADTIF); // Wait for ADC Threshold Interrupt Flag to set;
-    return (ADCC_GetFilterValue()); // Return ADC Burst Average Result;
+    ADC_ConversionStart();
+    while( 0 == ADC_IsConversionDone() );
+    while( 0 == ADC_IsThresholdInterruptFlagSet() );
+    return ADC_FilterValueGet();
 }
 
 float AmbientCompensation(void) {
@@ -164,7 +178,14 @@ float AmbientCompensation(void) {
 }
 ```
 # SPI Module Configuration:
-The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results. The OLEDC library in MCC was used to generate the initialization code and functional APIs needed to use the display. The library sets up the SPI module with the correct configuration to ensure proper communication between the PIC microcontroller and the display driver, and also provides a set of functional APIs that make getting started with the display quick and easy. To add the OLEDC library to an MPLABX project, open MCC and navigate to the "Device Resources" section. Once inside the Device Resources section, select the “Mikro-E Clicks” drop down menu, select “Displays”, and then add in the "oledC" library. The functional APIs provided by the oledC library in MCC handle all of the SPI communication between the PIC and the display driver.
+The SPI module was used in this code example to communicate with the OLEDC display to show the real-time weather station output results.
+
+### SPI Settings
+|   Setting             |  Value       |
+|-----------------------|--------------|
+| Requested Speed (kHz) | 2000         |
+| Mode                  | Mode 0      |
+| Data Input Sampled At | Middle      |
 
 
 # UART Module Configuration:
